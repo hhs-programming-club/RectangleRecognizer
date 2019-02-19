@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<section name="Workbench">
+	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
+		<item value="false" key="isRegEx"/>
+		<item value="SolvedImageProcessor" key="selection"/>
+		<item value="true" key="casesensitive"/>
+		<item value="false" key="incremental"/>
+		<item value="true" key="wrap"/>
+		<item value="false" key="wholeword"/>
+		<list key="findhistory">
+			<item value="ImageProcessor"/>
+			<item value="polyPoints"/>
+			<item value="margin"/>
+			<item value="pixelColor.getRed"/>
+			<item value="totalImagesLabel"/>
+			<item value="totalImagesLavel"/>
+			<item value="Boolean["/>
+			<item value="Boolean[][]"/>
+			<item value="panel"/>
+		</list>
+		<list key="replacehistory">
+			<item value="SolvedImageProcessor"/>
+			<item value="rectPoints"/>
+			<item value="boolean["/>
+			<item value="boolean[][]"/>
+			<item value="rightPanel"/>
+		</list>
+	</section>
+	<section name="org.eclipse.ui.texteditor.FindReplaceDialog_dialogBounds">
+		<item value="294" key="DIALOG_WIDTH"/>
+		<item value="1|.AppleSystemUIFont|11.0|0|COCOA|1|.AppleSystemUIFont" key="DIALOG_FONT_NAME"/>
+		<item value="408" key="DIALOG_HEIGHT"/>
+		<item value="865" key="DIALOG_X_ORIGIN"/>
+		<item value="106" key="DIALOG_Y_ORIGIN"/>
+	</section>
+</section>

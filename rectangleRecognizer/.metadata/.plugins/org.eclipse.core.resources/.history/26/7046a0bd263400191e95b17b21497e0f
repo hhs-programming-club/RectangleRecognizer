@@ -1,0 +1,85 @@
+package rectangleRecognizer;
+
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.LayoutManager;
+import java.awt.Polygon;
+import java.awt.geom.Point2D;
+import java.awt.image.BufferedImage;
+import java.util.Arrays;
+import java.util.Collections;
+
+import javax.swing.*;
+
+public class DrawingPanel extends JPanel {
+	
+	private BufferedImage currentImage;
+	
+	public DrawingPanel() {
+		// TODO Auto-generated constructor stub
+		this.setBackground(Color.BLACK);
+		System.out.println("Constructing ");
+	}
+
+	public DrawingPanel(LayoutManager layout) {
+		super(layout);
+		// TODO Auto-generated constructor stub
+	}
+
+	public DrawingPanel(boolean isDoubleBuffered) {
+		super(isDoubleBuffered);
+		// TODO Auto-generated constructor stub
+	}
+
+	public DrawingPanel(LayoutManager layout, boolean isDoubleBuffered) {
+		super(layout, isDoubleBuffered);
+		// TODO Auto-generated constructor stub
+	}
+	
+	public void paintComponent(Graphics g) {
+		
+		 super.paintComponent(g);
+		 System.out.println("Drawing");
+		 g.drawImage(currentImage, 0, 0, null);
+		 Color myColour = new Color(0, 0, 255, 40);
+		 Polygon overlay = new Polygon();
+		 overlay.reset();
+		 Point[] polyPoints = new Point[4];
+		 polyPoints[1] = new Point(40, 40);
+		 polyPoints[2] = new Point(180, 40);
+		 polyPoints[3] = new Point(140, 160);
+		 polyPoints[0] = new Point(40, 160);
+		 
+		 
+		 //Sorts points appropriately to be drawn
+		 Arrays.sort(polyPoints);
+		 Point temp = polyPoints[3];
+		 polyPoints[3] = polyPoints[2];
+		 polyPoints[2] = temp;
+
+		 
+		 for(int i=0; i<4; i++)
+		 {
+			 System.out.println(polyPoints[i].x + "," + polyPoints[i].y);
+			 overlay.addPoint(polyPoints[i].x, polyPoints[i].y);
+		 }
+		 
+//		 overlay.addPoint(40, 40);
+//		 overlay.addPoint(180, 40);
+//		 overlay.addPoint(140, 160);
+//		 overlay.addPoint(40, 160);
+		 
+		 
+		 g.setColor(myColour);
+//		 g.fillRect(40, 40, 200, 200);
+		 g.fillPolygon(overlay);
+		
+		    }
+	
+	public void updateImage(BufferedImage img)
+	{
+		currentImage = img;
+	}
+
+
+}

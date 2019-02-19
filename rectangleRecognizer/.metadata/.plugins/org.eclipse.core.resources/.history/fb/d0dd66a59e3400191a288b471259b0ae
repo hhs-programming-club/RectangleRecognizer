@@ -1,0 +1,9 @@
+package rectangleRecognizer;
+
+public class SolvedImageProcessor {
+
+	public SolvedImageProcessor() {
+		// TODO Auto-generated constructor stub
+	}
+
+}

@@ -1,0 +1,49 @@
+package rectangleRecognizer;
+
+public class Point implements Comparable{
+
+	public int x;
+	public int y;
+	
+	public Point(int x, int y) {
+		// TODO Auto-generated constructor stub
+		this.x = x;
+		this.y = y;
+	}
+	
+	//if current is less -> -1
+	@Override
+	public int compareTo(Object o) {
+		// TODO Auto-generated method stub
+		Point toCompare;
+		try
+		{
+			toCompare = (Point)o;
+		}
+		catch(Exception e)
+		{
+			//Returns equal if different type
+			return 0;
+		}
+		if(this.y > toCompare.y)
+		{
+			return 1;
+		}
+		else if(this.y < toCompare.y)
+		{
+			return -1;
+		}
+		else //
+		{
+			if(this.x < toCompare.x)
+			{
+				return -1;
+			}
+			else
+			{
+				return 1;
+			}
+		}
+	}
+
+}

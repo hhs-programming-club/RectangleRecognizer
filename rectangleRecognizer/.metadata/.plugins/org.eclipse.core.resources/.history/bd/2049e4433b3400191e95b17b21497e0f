@@ -1,0 +1,223 @@
+package rectangleRecognizer;
+
+import java.awt.Color;
+import java.awt.Image;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import java.util.Arrays;
+
+import javax.imageio.ImageIO;
+
+public class ImageProcessor {
+	
+	static final File dir = new File("testImages/");
+	private BufferedImage[] imagesToProcess;
+	public static int numberImages = 0;
+	private Point[][] pointsForImages;
+	
+	
+	public ImageProcessor()
+	{
+		File[] fileList = ImageProcessor.dir.listFiles();
+		if (fileList.length == 0)
+		{
+			System.out.println("No files in test images folder. Terminating...");
+			System.exit(0);
+		}
+		else
+		{
+			System.out.println(fileList.length + " file(s) found:");
+			imagesToProcess = new BufferedImage[fileList.length];
+			ImageProcessor.numberImages = fileList.length;
+			pointsForImages = new Point[fileList.length][4];
+		}
+		
+		int counter = -1;
+		
+		// Load in all images
+		for(File file : fileList)
+		{
+			counter++;
+			System.out.println(file.getName());
+			File imageFile = new File(dir.getPath() + "/" + file.getName());
+			BufferedImage img = null;
+			try {
+			    img = ImageIO.read(imageFile);
+			    imagesToProcess[counter] = img;
+			    
+			} catch (IOException e) {
+				System.out.println("Reading images failed.");
+			}
+			
+			
+		}
+		System.out.println("All image files read.");
+	}
+	
+	public int getNumberImages()
+	{
+		return imagesToProcess.length;
+	}
+	
+	public BufferedImage getImage(int i)
+	{
+		return imagesToProcess[i];
+	}
+	
+	public Point[] getPoints(int index)
+	{
+		Point[] imgPoints = generateCorners(imagesToProcess[index]);
+	    pointsForImages[index] = imgPoints;
+		return pointsForImages[index];
+	}
+	
+	private BufferedImage storeImage;
+	
+	//Complete this method
+	private Point[] generateCorners(BufferedImage image)
+	{
+		Point[] polyPoints = new Point[4];		
+		toProcess = image;
+		
+		visited = new boolean[1080][720];
+		currentBlob = new boolean[1080][720];
+		biggestBlob = new boolean[1080][720];
+		blobSize = 0;
+		biggestBlobSize = 0;
+		
+//		Arrays.fill(visited, false);
+//		Arrays.fill(currentBlob, Boolean.FALSE);
+//		Arrays.fill(biggestBlob, false);
+		int numRedPixels = 0;
+		
+		// 'imageColors' is the color values of the current image's 1080x720 pixels (in case you ever need the full array)
+		// 'pixelColor' is the current pixel's color value as the for loops increment through the image by column
+		// Process those color values to locate the red rectangle in the image
+		// The rectangle can be at any rotation and, for the harder image sets, exist in 3D space
+		// Return the four corners as 4 'Point' objects in the 'polyPoints' array
+		// For example: polyPoints[0] = new Point(180, 40);
+		// Use this line of code inside an if condition to mask any pixels you aren't interested in: toProcess.setRGB(i, j, Color.green.getRGB());
+		for(int i = 0; i < 1080; i++)
+		{
+		    for(int j = 0; j < 720; j++)
+		    {
+		    	int colorInt = toProcess.getRGB(i, j);
+		        imageColors[i][j] = new Color(colorInt);
+		        Color pixelColor = new Color(colorInt);
+		        
+		        
+		        
+//		        if(pixelColor.getRed() > 150 && pixelColor.getBlue() < 150 && pixelColor.getGreen() < 150)
+		        if(pixelColor.getRed() > pixelColor.getBlue() + pixelColor.getGreen())
+		        {
+		        	numRedPixels++;
+		        	if(visited[i][j] == false)
+		        	{
+		        		markVisited(i,j);
+		        		if(blobSize>biggestBlobSize)
+		        		{
+		        			biggestBlobSize = blobSize;
+		        			System.out.println(blobSize);
+		        			biggestBlob = currentBlob;
+		        			
+		        		}
+		        		
+		        		blobSize = 0;
+		        		currentBlob = new boolean[1080][720];
+		        	}
+		        }
+		        else
+		        {
+//		        	toProcess.setRGB(i, j, Color.green.getRGB());
+		        }
+		        
+		    }
+		}
+		
+		
+		
+		System.out.println("# of red pixels: " + numRedPixels);
+		
+		Point rightMostPoint = new Point(0,0);
+		Point leftMostPoint = new Point(-1, -1);
+		Point lowestPoint = new Point(0,0);
+		Point highestPoint = new Point(0, 0);
+		
+		for(int i = 0; i < 1080; i++)
+		{
+		    for(int j = 0; j < 720; j++)
+		    {
+		    	if(biggestBlob[i][j] == false)
+		    	{
+		    		int colorInt = toProcess.getRGB(i, j);
+		            Color startColor = new Color(colorInt);
+		    		int newGreen = startColor.getGreen()/2;
+		    		int newRed = startColor.getRed()/2;
+		    		int newBlue = startColor.getBlue()/2;
+		    		Color newColor = new Color(newRed, newGreen, newBlue);
+		    		toProcess.setRGB(i, j, newColor.getRGB());
+		    	}
+		    	else
+		    	{
+		    		if(leftMostPoint.x < 0)
+		    		{
+		    			leftMostPoint = new Point(i, j);
+		    			toProcess.setRGB(i, j, Color.green.getRGB());
+		    		}
+		    		if(highestPoint.x > j)
+		    		{
+		    			highestPoint = new Point(i, j);
+		    			System.out.println("new");
+		    			toProcess.setRGB(i, j, Color.green.getRGB());
+		    		}
+		    	}
+		    }
+		}
+		
+		
+		polyPoints[1] = new Point((int)(Math.random()*200)+40, 40);
+		polyPoints[2] = new Point(180, 40);
+		polyPoints[3] = new Point(140, 160);
+		polyPoints[0] = new Point(40, 160);
+		return polyPoints;
+	}
+	
+	private BufferedImage toProcess;
+	private Color[][] imageColors = new Color[1080][720];
+	
+	private boolean[][] visited = new boolean[1080][720];
+	private boolean[][] currentBlob = new boolean[1080][720];
+	private boolean[][] biggestBlob = new boolean[1080][720];
+	private int blobSize = 0;
+	private int biggestBlobSize = 0;
+	
+	
+	private void markVisited(int i, int j)
+	{
+		if (i<0 || j<0)
+	        return;
+	 
+	    if (i>= 1080 || j>= 720)
+	        return;
+	    
+	    if (visited[i][j] == true) // already visited
+	        return;
+	    
+	    int colorInt = toProcess.getRGB(i, j);
+        imageColors[i][j] = new Color(colorInt);
+        Color pixelColor = new Color(colorInt);
+        if(pixelColor.getRed() <= pixelColor.getBlue() + pixelColor.getGreen()) // red
+	        return;
+        
+        visited[i][j] = true;
+        currentBlob[i][j] = true;
+        blobSize = blobSize + 1;
+        markVisited (i+1, j);
+        markVisited (i-1, j);
+        markVisited (i, j+1);
+        markVisited (i, j-1);
+	    
+	}
+
+}

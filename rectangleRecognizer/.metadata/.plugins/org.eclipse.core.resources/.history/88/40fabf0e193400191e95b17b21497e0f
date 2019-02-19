@@ -1,0 +1,15 @@
+package rectangleRecognizer;
+import java.io.File;
+import java.io.FilenameFilter;
+
+public class main {
+	
+	static final File dir = new File("PATH_TO_YOUR_DIRECTORY");
+	
+	public static void main(String [] args)
+	{
+		Window testWindow = new Window();
+		
+	}
+
+}

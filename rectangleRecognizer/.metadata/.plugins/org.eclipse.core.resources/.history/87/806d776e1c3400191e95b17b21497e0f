@@ -1,0 +1,40 @@
+package rectangleRecognizer;
+
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.LayoutManager;
+
+import javax.swing.JPanel;
+
+public class DrawingPanel extends JPanel {
+
+	public DrawingPanel() {
+		// TODO Auto-generated constructor stub
+		this.setBackground(Color.BLACK);
+		System.out.println("Constructing ");
+	}
+
+	public DrawingPanel(LayoutManager layout) {
+		super(layout);
+		// TODO Auto-generated constructor stub
+	}
+
+	public DrawingPanel(boolean isDoubleBuffered) {
+		super(isDoubleBuffered);
+		// TODO Auto-generated constructor stub
+	}
+
+	public DrawingPanel(LayoutManager layout, boolean isDoubleBuffered) {
+		super(layout, isDoubleBuffered);
+		// TODO Auto-generated constructor stub
+	}
+	
+	public void paintComponent(Graphics g) {
+		
+		 super.paintComponent(g);
+		 System.out.println("Drawing");
+		
+		    }
+
+
+}
